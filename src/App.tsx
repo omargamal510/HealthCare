@@ -8,7 +8,7 @@ export default function App() {
         <ul className="flex space-x-4 text-white">
           <li>
             <Link to="/" className="hover:underline">
-              Home
+              Home page
             </Link>
           </li>
           <li>
