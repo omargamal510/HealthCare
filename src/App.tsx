@@ -13,13 +13,13 @@ export default function App() {
           </li>
           <li>
             <Link to="/doctors" className="hover:underline">
-              Appointments
+              Doctors
             </Link>
           </li>
         </ul>
       </nav>
       {/* Routes */}
-      <main className="px-10">
+      <main className="p-10">
         <Outlet />
       </main>
     </div>
