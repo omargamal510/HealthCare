@@ -2,10 +2,10 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Home from "./pages/Home";
-import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import "./index.css";
 import { StrictMode } from "react";
+import Doctors from "./pages/Doctors.js";
 
 // Define routes
 const router = createBrowserRouter([
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "about",
-        element: <About />,
+        path: "doctors",
+        element: <Doctors />,
       },
       {
         path: "*", // Catch-all for 404

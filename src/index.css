@@ -1,1 +1,16 @@
+/* #eef0f2 */
+
 @import "tailwindcss";
+
+html {
+  font-family: "Cairo", sans-serif;
+}
+
+@theme {
+  --color-primary-cyan: #007e85;
+  --color-primary-gray: #eef0f2;
+}
+
+body {
+  @apply bg-primary-gray;
+}
