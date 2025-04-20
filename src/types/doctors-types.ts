@@ -23,6 +23,9 @@ export interface DoctorFilterProps {
   filterStatus: boolean;
   setFilterStatus: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedSpecialties: React.Dispatch<React.SetStateAction<string[]>>;
+  setAvailFilter: React.Dispatch<React.SetStateAction<string[]>>;
+  availFilter: string[];
   selectedSpecialties: string[];
   allSelectionsSet: string[];
+  doctors: doctorTypes[];
 }

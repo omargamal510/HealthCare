@@ -5,25 +5,24 @@ import { SlidersHorizontal } from "lucide-react";
 import DoctorFilter from "../components/DoctorFilter.tsx";
 
 const API_LINK: string =
-  "https://gist.githubusercontent.com/omargamal510/47c5c6c27c12e00ef04a5e284397b16b/raw/3ea9210708127aab4fd2d310bda942072b4cf438/gistfile1.txt";
-// in real production this is an env. variable
+  "https://gist.githubusercontent.com/omargamal510/47c5c6c27c12e00ef04a5e284397b16b/raw/f79718648cbbd304b03151871bf375c6bdbdf44e/gistfile1.txt";
 const iconWidth: number = 20;
 
 function Doctors() {
   const [doctors, setDoctors] = useState<doctorTypes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-  const [filterStatus, setFilterStatus] = useState<boolean>(true);
+  const [availFilter, setAvailFilter] = useState<string[]>([]);
+  const [filterStatus, setFilterStatus] = useState<boolean>(false);
 
   useEffect(() => {
-    // Define the fetch function
     const fetchDoctors = async (): Promise<void> => {
       try {
         const response: Response = await fetch(API_LINK);
         const data: doctorTypes[] = await response.json();
         setDoctors(data);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching doctors:", error);
       } finally {
         setLoading(false);
       }
@@ -32,52 +31,23 @@ function Doctors() {
     fetchDoctors();
   }, []);
 
-  // function filterChoice(e: React.ChangeEvent<HTMLSelectElement>) {
-  //   const selected: string = e.target.value;
-  //   if (selected === "Availability") {
-  //     setSelectedFilter("Availability");
-  //   } else if (selected === "Speciality") {
-  //     setSelectedFilter("Speciality");
-  //   }
-  // }
-
-  // const sortedDoctors: doctorTypes[] = [...doctors].sort((a, b) => {
-  //   if (selectedFilted === "Speciality") {
-  //     if (a.specialty < b.specialty) return -1;
-  //     if (a.specialty > b.specialty) return 1;
-  //   } else {
-  //     if (a.available && !b.available) return -1;
-  //     if (!a.available && b.available) return 1;
-  //   }
-
-  //   return 0;
-  // });
-
-  // function filterSpeciality(speciality: string): void {
-  //   const filterDoctors = doctors.filter((e) =>
-  //     allSelections.includes(e.specialty)
-  //   );
-  //   setDoctors(filterDoctors);
-  // }
-
   if (loading) return <p>Loading...</p>;
 
   const allSelections: string[] = doctors.map((e) => e.specialty);
   const allSelectionsSet: string[] = Array.from(new Set(allSelections));
 
-  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value, checked } = e.target;
+  // Filter doctors based on specialty and availability (dates)
+  const filteredDoctors: doctorTypes[] = doctors.filter((doctor) => {
+    const matchesSpecialty =
+      selectedSpecialties.length === 0 ||
+      selectedSpecialties.includes(doctor.specialty);
 
-  //   setSelectedSpecialties((prev) =>
-  //     checked ? [...prev, value] : prev.filter((item: string) => item !== value)
-  //   );
-  // };
+    const matchesAvailability =
+      availFilter.length === 0 ||
+      doctor.availableSlots.some((slot) => availFilter.includes(slot.date));
 
-  const filterSpeciality: doctorTypes[] = doctors.filter((doctor) =>
-    selectedSpecialties.includes(doctor.specialty)
-  );
-
-  console.log(filterSpeciality);
+    return matchesSpecialty && matchesAvailability;
+  });
 
   return (
     <div>
@@ -87,25 +57,13 @@ function Doctors() {
         allSelectionsSet={allSelectionsSet}
         selectedSpecialties={selectedSpecialties}
         setSelectedSpecialties={setSelectedSpecialties}
+        availFilter={availFilter}
+        setAvailFilter={setAvailFilter}
+        doctors={doctors}
       />
-
-      {/* <div>
-        <h4>Selected:</h4>
-        <pre>{JSON.stringify(selectedSpecialties, null, 2)}</pre>
-      </div> */}
 
       <div className="flex justify-between mb-10">
         <h2 className="text-3xl font-bold text-primary-cyan">All Doctors</h2>
-        {/* <div className="sorting flex items-center gap-2 ">
-          <label>Filter by</label>
-          <select
-            onChange={(e) => filterChoice(e)}
-            className="shadow-md rounded-md bg-white w-32"
-          >
-            <option>Availability</option>
-            <option>Speciality</option>
-          </select>
-        </div> */}
         <div className="flex">
           <button
             onClick={() => setFilterStatus(true)}
@@ -117,15 +75,14 @@ function Doctors() {
         </div>
       </div>
 
-      <div></div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-10 w-full items-center justify-center">
-        {selectedSpecialties.length !== 0
-          ? filterSpeciality.map((doctor: doctorTypes, i: number) => (
-              <DoctorCard key={doctor.id || i} doctor={doctor} />
-            ))
-          : doctors.map((doctor: doctorTypes, i: number) => (
-              <DoctorCard key={doctor.id || i} doctor={doctor} />
-            ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full items-center justify-center">
+        {filteredDoctors.length > 0 ? (
+          filteredDoctors.map((doctor: doctorTypes, i: number) => (
+            <DoctorCard key={doctor.id || i} doctor={doctor} />
+          ))
+        ) : (
+          <p>No doctors match the selected filters.</p>
+        )}
       </div>
     </div>
   );
