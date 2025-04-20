@@ -2,24 +2,24 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-primary-gray">
       {/* Navigation */}
       <nav className="bg-blue-500 p-4">
         <ul className="flex space-x-4 text-white">
           <li>
             <Link to="/" className="hover:underline">
-              Home page
+              Home
             </Link>
           </li>
           <li>
-            <Link to="/about" className="hover:underline">
-              About page
+            <Link to="/doctors" className="hover:underline">
+              Doctors
             </Link>
           </li>
         </ul>
       </nav>
       {/* Routes */}
-      <main className="p-4">
+      <main className="p-10">
         <Outlet />
       </main>
     </div>

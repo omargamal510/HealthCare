@@ -1,1 +1,25 @@
+/* #eef0f2 */
+
 @import "tailwindcss";
+
+html {
+  font-family: "Cairo", sans-serif;
+}
+
+@theme {
+  --color-primary-cyan: #007e85;
+  --color-primary-gray: #eef0f2;
+  --color-primary-filter: #ffffff88;
+}
+
+body {
+  @apply bg-primary-gray;
+}
+
+button {
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  @apply accent-primary-cyan;
+}

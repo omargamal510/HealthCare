@@ -1,0 +1,91 @@
+import { useEffect, useState } from "react";
+import DoctorCard from "../components/DoctorCard/DoctorCard.tsx";
+import { doctorTypes } from "../types/doctors-types.ts";
+import { SlidersHorizontal } from "lucide-react";
+import DoctorFilter from "../components/DoctorFilter.tsx";
+
+const API_LINK: string =
+  "https://gist.githubusercontent.com/omargamal510/47c5c6c27c12e00ef04a5e284397b16b/raw/f79718648cbbd304b03151871bf375c6bdbdf44e/gistfile1.txt";
+const iconWidth: number = 20;
+
+function Doctors() {
+  const [doctors, setDoctors] = useState<doctorTypes[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const [availFilter, setAvailFilter] = useState<string[]>([]);
+  const [filterStatus, setFilterStatus] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchDoctors = async (): Promise<void> => {
+      try {
+        const response: Response = await fetch(API_LINK);
+        const data: doctorTypes[] = await response.json();
+        setDoctors(data);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
+  const allSelections: string[] = doctors.map((e) => e.specialty);
+  const allSelectionsSet: string[] = Array.from(new Set(allSelections));
+
+  // Filter doctors based on specialty and availability (dates)
+  const filteredDoctors: doctorTypes[] = doctors.filter((doctor) => {
+    const matchesSpecialty =
+      selectedSpecialties.length === 0 ||
+      selectedSpecialties.includes(doctor.specialty);
+
+    const matchesAvailability =
+      availFilter.length === 0 ||
+      doctor.availableSlots.some((slot) => availFilter.includes(slot.date));
+
+    return matchesSpecialty && matchesAvailability;
+  });
+
+  return (
+    <div>
+      <DoctorFilter
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
+        allSelectionsSet={allSelectionsSet}
+        selectedSpecialties={selectedSpecialties}
+        setSelectedSpecialties={setSelectedSpecialties}
+        availFilter={availFilter}
+        setAvailFilter={setAvailFilter}
+        doctors={doctors}
+      />
+
+      <div className="flex justify-between mb-10">
+        <h2 className="text-3xl font-bold text-primary-cyan">All Doctors</h2>
+        <div className="flex">
+          <button
+            onClick={() => setFilterStatus(true)}
+            className="flex gap-1 cursor-pointer bg-white items-center justify-center px-5 shadow-lg text-primary-cyan font-semibold"
+          >
+            <span>Filter</span>
+            <SlidersHorizontal width={iconWidth} />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full items-center justify-center">
+        {filteredDoctors.length > 0 ? (
+          filteredDoctors.map((doctor: doctorTypes, i: number) => (
+            <DoctorCard key={doctor.id || i} doctor={doctor} />
+          ))
+        ) : (
+          <p>No doctors match the selected filters.</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Doctors;
