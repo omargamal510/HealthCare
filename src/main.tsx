@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import "./index.css";
 import { StrictMode } from "react";
 import Doctors from "./pages/Doctors.js";
+import { PopupProvider } from "./store/PopupContext.js";
 
 // Define routes
 const router = createBrowserRouter([
@@ -31,6 +32,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <PopupProvider>
+      <RouterProvider router={router} />
+    </PopupProvider>
   </StrictMode>
 );

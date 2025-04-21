@@ -1,6 +1,7 @@
 import { BriefcaseMedical, SlidersHorizontal, X } from "lucide-react";
-import { DoctorFilterProps } from "../types/doctors-types.ts";
+import { DoctorFilterProps } from "../../types/doctors-types.ts";
 import { useEffect, useMemo, useState } from "react";
+import { isDeprecatedDate } from "../../utils/dateFormatter.ts";
 
 function DoctorFilter({
   filterStatus,
@@ -15,12 +16,15 @@ function DoctorFilter({
   const [showMore, setShowMore] = useState<boolean>(false);
   const [availShowMore, setAvailShowMore] = useState<boolean>(false);
 
-  const availableDates = useMemo(() => {
+  const availableDates: string[] = useMemo((): string[] => {
     const allDates = doctors.flatMap((doctor) =>
       doctor.availableSlots.map((slot) => slot.date)
     );
-    const uniqueDates = [...new Set(allDates)];
-    return uniqueDates.sort();
+    const uniqueDates: string[] = [...new Set(allDates)];
+    const uniqueDatesFilter: string[] = uniqueDates.filter(
+      (e) => !isDeprecatedDate(e)
+    );
+    return uniqueDatesFilter.sort();
   }, [doctors]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -15,16 +15,22 @@ import { useState } from "react";
 import {
   defineTodayTomorrow,
   isDeprecatedDate,
-  todayDateFormat,
-  tomorrowDateFormat,
 } from "../../utils/dateFormatter.ts";
+import { usePopup } from "../../store/PopupContext.tsx";
 
 const iconWidth: number = 20;
 
-function DoctorCard({ doctor }: DoctorCardProp) {
+function DoctorCard({
+  doctor,
+  setBookingStatus,
+  bookingStatus,
+  setDoctorBookingData,
+}: DoctorCardProp) {
   const {
     name,
     description,
+
+    rating,
     specialty,
     image,
     available,
@@ -34,6 +40,8 @@ function DoctorCard({ doctor }: DoctorCardProp) {
 
   const [dateSlice, setDateSlice] = useState<number>(3);
   const [dateSliceStart, setDateSliceStart] = useState<number>(0);
+
+  const { setIsPopupOpen } = usePopup();
 
   const filteredAvailSlots: doctorSlot[] = availableSlots.filter(
     (e) => !isDeprecatedDate(e.date)
@@ -55,7 +63,10 @@ function DoctorCard({ doctor }: DoctorCardProp) {
     setDateSliceStart((prev) => prev - 3);
   }
 
-  console.log();
+  function handleBooking(): void {
+    setDoctorBookingData(doctor);
+    setIsPopupOpen(true);
+  }
 
   return (
     <div className=" flex gap-5 shadow-2xl rounded-lg flex-col p-5 bg-white">
@@ -73,6 +84,11 @@ function DoctorCard({ doctor }: DoctorCardProp) {
             </h3>
 
             <h4 className="text-lg ">{description}</h4>
+
+            <p className="flex font-semibold items-center justify-center gap-1">
+              <img src="star.png" className="w-5" />
+              <span>{rating}</span>
+            </p>
           </section>
 
           <p className="flex flex-col justify-center items-center">
@@ -125,6 +141,7 @@ function DoctorCard({ doctor }: DoctorCardProp) {
 
       <div className="w-full flex items-center justify-center">
         <button
+          onClick={() => handleBooking()}
           className="rounded-sm
          bg-primary-cyan p-2 text-white cursor-pointer"
         >
