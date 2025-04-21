@@ -15,16 +15,21 @@ import { useState } from "react";
 import {
   defineTodayTomorrow,
   isDeprecatedDate,
-  todayDateFormat,
-  tomorrowDateFormat,
 } from "../../utils/dateFormatter.ts";
+import { usePopup } from "../../store/PopupContext.tsx";
 
 const iconWidth: number = 20;
 
-function DoctorCard({ doctor }: DoctorCardProp) {
+function DoctorCard({
+  doctor,
+
+  setDoctorBookingData,
+}: DoctorCardProp) {
   const {
     name,
     description,
+
+    rating,
     specialty,
     image,
     available,
@@ -34,6 +39,8 @@ function DoctorCard({ doctor }: DoctorCardProp) {
 
   const [dateSlice, setDateSlice] = useState<number>(3);
   const [dateSliceStart, setDateSliceStart] = useState<number>(0);
+
+  const { setIsPopupOpen } = usePopup();
 
   const filteredAvailSlots: doctorSlot[] = availableSlots.filter(
     (e) => !isDeprecatedDate(e.date)
@@ -55,10 +62,13 @@ function DoctorCard({ doctor }: DoctorCardProp) {
     setDateSliceStart((prev) => prev - 3);
   }
 
-  console.log();
+  function handleBooking(): void {
+    setDoctorBookingData(doctor);
+    setIsPopupOpen(true);
+  }
 
   return (
-    <div className=" flex gap-5 shadow-2xl rounded-lg flex-col p-5 bg-white">
+    <div className="min-h-[450px] hover:translate-y-2 transition-all duration-300 linear flex gap-5 shadow-2xl rounded-lg flex-col justify-center items-center p-5 bg-white">
       <div className="flex flex-col items-center text-center  h-full gap-5">
         <img
           className="rounded-full w-20 border-primary-cyan border"
@@ -73,6 +83,11 @@ function DoctorCard({ doctor }: DoctorCardProp) {
             </h3>
 
             <h4 className="text-lg ">{description}</h4>
+
+            <p className="flex font-semibold items-center justify-center gap-1">
+              <img src="star.png" className="w-5" />
+              <span>{rating}</span>
+            </p>
           </section>
 
           <p className="flex flex-col justify-center items-center">
@@ -125,8 +140,12 @@ function DoctorCard({ doctor }: DoctorCardProp) {
 
       <div className="w-full flex items-center justify-center">
         <button
-          className="rounded-sm
-         bg-primary-cyan p-2 text-white cursor-pointer"
+          disabled={!available}
+          onClick={() => handleBooking()}
+          className={`${
+            !available ? "opacity-40 cursor-none" : "cursor-pointer"
+          } rounded-sm
+         bg-primary-cyan p-2 text-white `}
         >
           Book Appointment
         </button>

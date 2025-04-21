@@ -1,12 +1,3 @@
-export interface DoctorCardProp {
-  doctor: doctorTypes;
-}
-
-export interface doctorSlot {
-  date: string;
-  time: string;
-}
-
 export interface doctorTypes {
   id: string;
   description: string;
@@ -19,6 +10,19 @@ export interface doctorTypes {
   availableSlots: doctorSlot[];
 }
 
+export interface DoctorCardProp {
+  doctor: doctorTypes;
+  bookingStatus: boolean;
+  setBookingStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  doctorBookingData: doctorTypes;
+  setDoctorBookingData: React.Dispatch<React.SetStateAction<doctorTypes>>;
+}
+
+export interface doctorSlot {
+  date: string;
+  time: string;
+}
+
 export interface DoctorFilterProps {
   filterStatus: boolean;
   setFilterStatus: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,4 +32,11 @@ export interface DoctorFilterProps {
   selectedSpecialties: string[];
   allSelectionsSet: string[];
   doctors: doctorTypes[];
+}
+
+export interface DoctorBookingProps {
+  doctorBookingData: doctorTypes;
+  setDoctorBookingData: React.Dispatch<React.SetStateAction<doctorTypes>>;
+  bookingStatus: boolean;
+  setBookingStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }

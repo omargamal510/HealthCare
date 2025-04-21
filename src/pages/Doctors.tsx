@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import DoctorCard from "../components/DoctorCard/DoctorCard.tsx";
 import { doctorTypes } from "../types/doctors-types.ts";
 import { SlidersHorizontal } from "lucide-react";
-import DoctorFilter from "../components/DoctorFilter.tsx";
+import DoctorFilter from "../components/DoctorFilter/DoctorFilter.tsx";
+import DoctorBooking from "../components/DoctorBooking/DoctorBooking.tsx";
 
 const API_LINK: string =
-  "https://gist.githubusercontent.com/omargamal510/47c5c6c27c12e00ef04a5e284397b16b/raw/f79718648cbbd304b03151871bf375c6bdbdf44e/gistfile1.txt";
+  "https://gist.githubusercontent.com/omargamal510/47c5c6c27c12e00ef04a5e284397b16b/raw/a74db00ad9dc733282ec47a384346afd66059084/gistfile1.txt";
 const iconWidth: number = 20;
 
 function Doctors() {
   const [doctors, setDoctors] = useState<doctorTypes[]>([]);
+  const [bookingStatus, setBookingStatus] = useState<boolean>(false);
+  const [doctorBookingData, setDoctorBookingData] = useState<doctorTypes>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [availFilter, setAvailFilter] = useState<string[]>([]);
@@ -78,12 +81,26 @@ function Doctors() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full items-center justify-center">
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doctor: doctorTypes, i: number) => (
-            <DoctorCard key={doctor.id || i} doctor={doctor} />
+            <DoctorCard
+              setDoctorBookingData={setDoctorBookingData}
+              doctorBookingData={doctorBookingData}
+              setBookingStatus={setBookingStatus}
+              bookingStatus={bookingStatus}
+              key={doctor.id || i}
+              doctor={doctor}
+            />
           ))
         ) : (
           <p>No doctors match the selected filters.</p>
         )}
       </div>
+
+      <DoctorBooking
+        setDoctorBookingData={setDoctorBookingData}
+        doctorBookingData={doctorBookingData}
+        setBookingStatus={setBookingStatus}
+        bookingStatus={bookingStatus}
+      />
     </div>
   );
 }
