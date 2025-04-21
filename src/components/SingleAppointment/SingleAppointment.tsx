@@ -1,0 +1,53 @@
+import { BadgeX, CalendarClock, Map, Minus } from "lucide-react";
+import { Link } from "react-router-dom";
+
+function SingleAppointment() {
+  const appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
+
+  return (
+    <>
+      {appointments.length > 0 ? (
+        <div className="flex flex-col gap-5">
+          {appointments.map((appointment, index) => (
+            <div key={index} className="rounded-lg bg-white shadow-2xl ">
+              <div className="flex bg-primary-cyan p-2 rounded-t-lg text-white font-bold justify-between">
+                <h2 className="text-2xl">{appointment.name}</h2>
+                <p className="text-lg">{appointment.specialty}</p>
+              </div>
+              <div className="flex flex-col justify-around gap-2 p-2 text-lg font-semibold h-[120px]">
+                <p className="flex gap-1 items-center ">
+                  <span>
+                    <CalendarClock />
+                  </span>
+                  <span>{appointment.date}</span>
+                  <Minus />
+                  <span>{appointment.time}</span>
+                </p>
+                <p className="flex gap-1 items-center ">
+                  <span>
+                    <Map />
+                  </span>
+                  <span>{appointment.location}</span>
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center flex flex-col -mt-20 items-center justify-center gap-5 h-screen">
+          <h2 className="flex gap-1 text-3xl font-bold items-center">
+            You have no appointments yet <BadgeX className="text-red-500" />
+          </h2>
+          <Link
+            className="bg-primary-cyan font-semibold w-fit text-white p-2"
+            to={"/doctors"}
+          >
+            Book Appointment now
+          </Link>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default SingleAppointment;

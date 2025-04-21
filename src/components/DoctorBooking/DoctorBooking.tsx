@@ -11,6 +11,7 @@ import {
 } from "../../utils/dateFormatter.ts";
 import { useEffect, useState } from "react";
 import { usePopup } from "../../store/PopupContext.tsx";
+import { toast, ToastContainer } from "react-toastify";
 function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
   const {
     name,
@@ -31,7 +32,7 @@ function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
   //   setShowMore(true);
   // }
 
-  const { isPopupOpen } = usePopup();
+  const { isPopupOpen, setIsPopupOpen } = usePopup();
 
   const datesFiltered: doctorSlot[] = availableSlots?.filter(
     (e) => !isDeprecatedDate(e.date)
@@ -40,6 +41,29 @@ function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
   // const sliceNum: number = showMore
   //   ? datesFiltered?.length
   //   : Math.ceil(datesFiltered?.length / 4);
+
+  const bookedAppointments: any = ["Street", "ssss"];
+  const notify = () => toast("Succesfull booking");
+
+  function booking() {
+    const newBooking = {
+      name,
+      specialty,
+      location,
+      date: choosenDate,
+      time: choosenTime,
+    };
+
+    const existingAppointments = JSON.parse(
+      localStorage.getItem("appointments") || "[]"
+    );
+    existingAppointments.push(newBooking);
+
+    localStorage.setItem("appointments", JSON.stringify(existingAppointments));
+    setIsPopupOpen(false);
+
+    notify();
+  }
 
   useEffect(() => {
     if (!isPopupOpen) {
@@ -117,8 +141,16 @@ function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
                 </li>
               ))}
             </ul>
+
+            <p className="flex border-t-1 border-primary-cyan pt-3 mt-3  w-full text-center items-center justify-center gap-2">
+              <span> Your appointment will be : </span>
+              <span className="flex">
+                {choosenDate} <Minus /> {choosenTime}
+              </span>
+            </p>
+
             <button
-              onClick={() => alert("Booked !")}
+              onClick={() => booking()}
               disabled={choosenDate === "" && choosenTime === ""}
               className={`bg-primary-cyan text-white p-2 rounded-lg mt-5 ${
                 choosenDate === "" && choosenTime === "" ? "opacity-[.3]" : ""
@@ -126,11 +158,10 @@ function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
             >
               Book Now !
             </button>
-            {choosenDate} {choosenTime}
           </div>
         </div>
       </PopupDiv>
-
+      <ToastContainer />
       {/* <div
         className={`${
           bookingStatus ? "flex" : "hidden"

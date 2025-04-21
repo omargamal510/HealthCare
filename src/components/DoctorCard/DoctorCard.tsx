@@ -22,8 +22,7 @@ const iconWidth: number = 20;
 
 function DoctorCard({
   doctor,
-  setBookingStatus,
-  bookingStatus,
+
   setDoctorBookingData,
 }: DoctorCardProp) {
   const {
@@ -69,7 +68,7 @@ function DoctorCard({
   }
 
   return (
-    <div className=" flex gap-5 shadow-2xl rounded-lg flex-col p-5 bg-white">
+    <div className="min-h-[450px] hover:translate-y-2 transition-all duration-300 linear flex gap-5 shadow-2xl rounded-lg flex-col justify-center items-center p-5 bg-white">
       <div className="flex flex-col items-center text-center  h-full gap-5">
         <img
           className="rounded-full w-20 border-primary-cyan border"
@@ -141,9 +140,12 @@ function DoctorCard({
 
       <div className="w-full flex items-center justify-center">
         <button
+          disabled={!available}
           onClick={() => handleBooking()}
-          className="rounded-sm
-         bg-primary-cyan p-2 text-white cursor-pointer"
+          className={`${
+            !available ? "opacity-40 cursor-none" : "cursor-pointer"
+          } rounded-sm
+         bg-primary-cyan p-2 text-white `}
         >
           Book Appointment
         </button>
