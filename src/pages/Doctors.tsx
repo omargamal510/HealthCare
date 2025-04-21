@@ -4,6 +4,7 @@ import { doctorTypes } from "../types/doctors-types.ts";
 import { SlidersHorizontal } from "lucide-react";
 import DoctorFilter from "../components/DoctorFilter/DoctorFilter.tsx";
 import DoctorBooking from "../components/DoctorBooking/DoctorBooking.tsx";
+import Loading from "../components/Loading/Loading.tsx";
 
 const API_LINK: string =
   "https://gist.githubusercontent.com/omargamal510/47c5c6c27c12e00ef04a5e284397b16b/raw/a74db00ad9dc733282ec47a384346afd66059084/gistfile1.txt";
@@ -27,14 +28,16 @@ function Doctors() {
       } catch (error) {
         console.error("Error fetching doctors:", error);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       }
     };
 
     fetchDoctors();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   const allSelections: string[] = doctors.map((e) => e.specialty);
   const allSelectionsSet: string[] = Array.from(new Set(allSelections));

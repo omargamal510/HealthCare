@@ -143,10 +143,14 @@ function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
             </ul>
 
             <p className="flex border-t-1 border-primary-cyan pt-3 mt-3  w-full text-center items-center justify-center gap-2">
-              <span> Your appointment will be : </span>
-              <span className="flex">
-                {choosenDate} <Minus /> {choosenTime}
-              </span>
+              {choosenDate !== "" && choosenTime !== "" && (
+                <>
+                  <span> Your appointment will be : </span>
+                  <span className="flex">
+                    {choosenDate} <Minus /> {choosenTime}
+                  </span>
+                </>
+              )}
             </p>
 
             <button
