@@ -61,7 +61,7 @@ function DoctorFilter({
       {filterStatus && (
         <div
           onClick={() => setFilterStatus(false)}
-          className="bg-primary-filter overflow-y-scroll flex flex-col gap-10 items-center backdrop-blur-xs h-screen fixed inset-0"
+          className="bg-primary-filter overflow-y-scroll z-20 flex flex-col gap-10 items-center backdrop-blur-xs h-screen fixed inset-0"
         >
           <div
             onClick={(e) => e.stopPropagation()}

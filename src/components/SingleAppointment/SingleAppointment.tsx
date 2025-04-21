@@ -1,5 +1,9 @@
-import { BadgeX, CalendarClock, Map, Minus } from "lucide-react";
+import { BadgeX, CalendarClock, Map, Minus, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  defineTodayTomorrow,
+  isDeprecatedDate,
+} from "../../utils/dateFormatter.ts";
 
 function SingleAppointment() {
   const appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
@@ -15,11 +19,20 @@ function SingleAppointment() {
                 <p className="text-lg">{appointment.specialty}</p>
               </div>
               <div className="flex flex-col justify-around gap-2 p-2 text-lg font-semibold h-[120px]">
+                {isDeprecatedDate(appointment.date) && (
+                  <h3 className="flex items-center">
+                    {" "}
+                    <span>Passed</span>{" "}
+                    <span>
+                      <X className="text-red-500" />
+                    </span>
+                  </h3>
+                )}
                 <p className="flex gap-1 items-center ">
                   <span>
                     <CalendarClock />
                   </span>
-                  <span>{appointment.date}</span>
+                  <span>{defineTodayTomorrow(appointment.date)}</span>
                   <Minus />
                   <span>{appointment.time}</span>
                 </p>

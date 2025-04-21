@@ -23,3 +23,13 @@ button {
 input[type="checkbox"] {
   @apply accent-primary-cyan;
 }
+
+.loading {
+  animation: loading 2s linear infinite alternate forwards;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
