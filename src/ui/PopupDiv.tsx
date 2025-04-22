@@ -19,7 +19,7 @@ function PopupDiv({ children, title, icon }: PopupDivProps) {
       onClick={() => setIsPopupOpen(false)}
       className={`bg-primary-filter overflow-y-scroll ${
         isPopupOpen ? "flex" : "hidden"
-      } flex-col gap-10 pb-10 items-center backdrop-blur-lg h-screen fixed inset-0`}
+      } flex-col gap-10 pb-10 items-center z-20 backdrop-blur-lg h-screen fixed inset-0`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
