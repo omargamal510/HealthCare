@@ -1,13 +1,17 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
+import { Suspense, lazy } from "react";
 import "./index.css";
 import { StrictMode } from "react";
-import Doctors from "./pages/Doctors.js";
 import { PopupProvider } from "./store/PopupContext.js";
-import Appointments from "./pages/Appointments.js";
+import Loading from "./components/Loading/Loading.js";
+
+// Lazy load pages
+const App = lazy(() => import("./App.jsx"));
+const Home = lazy(() => import("./pages/Home"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Doctors = lazy(() => import("./pages/Doctors.js"));
+const Appointments = lazy(() => import("./pages/Appointments.js"));
 
 // Define routes
 const router = createBrowserRouter([
@@ -17,20 +21,35 @@ const router = createBrowserRouter([
     children: [
       {
         index: true, // Default route for "/"
-        element: <Home />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Home />
+          </Suspense>
+        ),
       },
       {
         path: "doctors",
-        element: <Doctors />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Doctors />
+          </Suspense>
+        ),
       },
-
       {
         path: "appointments",
-        element: <Appointments />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Appointments />
+          </Suspense>
+        ),
       },
       {
         path: "*", // Catch-all for 404
-        element: <NotFound />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <NotFound />
+          </Suspense>
+        ),
       },
     ],
   },
@@ -39,7 +58,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <PopupProvider>
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loading />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </PopupProvider>
   </StrictMode>
 );
