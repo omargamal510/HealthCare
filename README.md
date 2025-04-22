@@ -47,15 +47,7 @@ node -v
 ```
 1 - Clone Repository
 ```bash
-git clone https://github.com/omargamal510
-
-https://github.com/user-attachments/assets/d82b8133-a5b6-4dc9-862f-f430b3ceb21e
-
-
-
-https://github.com/user-attachments/assets/5012493e-92b0-4324-8b87-1aabc2d4688f
-
-/healthcare-app.git\
+https://github.com/omargamal510/HealthCare.git
 ```
 2 - Go to the repo directory
 ```bash
