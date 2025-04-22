@@ -8,7 +8,7 @@ function Home() {
         <h2 className="text-3xl font-bold">
           Providing Quality{" "}
           <span className="text-primary-cyan">Healthcare</span> for a <br />
-          <span className="text-primary-cyan">Brighter</span>
+          <span className="text-primary-cyan">Brighter </span>
           and <span className="text-primary-cyan">Healthy</span> Future
         </h2>
         <p>

@@ -62,19 +62,26 @@ function DoctorFilter({
         <div
           onClick={() => setFilterStatus(false)}
           className="bg-primary-filter overflow-y-scroll z-20 flex flex-col gap-10 items-center backdrop-blur-xs h-screen fixed inset-0"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="filter-title"
         >
           <div
             onClick={(e) => e.stopPropagation()}
             className="text-white py-5 bg-primary-cyan w-full text-center flex items-center"
           >
-            <h3 className="w-full text-2xl flex justify-center items-center gap-2">
-              <SlidersHorizontal /> Filters
+            <h3
+              id="filter-title"
+              className="w-full text-2xl flex justify-center items-center gap-2"
+            >
+              <SlidersHorizontal aria-hidden="true" /> Filters
             </h3>
             <button
               onClick={() => setFilterStatus(false)}
               className="w-10 flex justify-center"
+              aria-label="Close filter dialog"
             >
-              <X />
+              <X aria-hidden="true" />
             </button>
           </div>
 
@@ -83,33 +90,46 @@ function DoctorFilter({
             className="bg-white w-full md:w-[70%] rounded-lg shadow-2xl px-5 py-10"
           >
             <h3 className="pb-5 text-2xl border-b border-primary-cyan flex gap-1 items-center">
-              <BriefcaseMedical className="text-primary-cyan" />
+              <BriefcaseMedical
+                className="text-primary-cyan"
+                aria-hidden="true"
+              />
               <span>Specialty</span>
             </h3>
-            <div className="pt-5 grid grid-cols-1 md:grid-cols-2 w-full">
+            <div
+              className="pt-5 grid grid-cols-1 md:grid-cols-2 w-full"
+              role="group"
+              aria-label="Specialty filters"
+            >
               <div className="border-b border-primary-gray py-2 flex gap-1">
                 <input
                   type="checkbox"
+                  id="specialty-all"
                   checked={selectedSpecialties.length === 0}
                   onChange={() => setSelectedSpecialties([])}
+                  aria-label="Select all specialties"
                 />
-                <label>All</label>
+                <label htmlFor="specialty-all">All</label>
               </div>
               {allSelectionsSet
                 .slice(0, showMoreSpecialtyNum)
-                .map((specialty) => (
+                .map((specialty, index: number) => (
                   <div
-                    key={specialty}
+                    key={specialty || index}
                     className="flex gap-1 border-b border-primary-gray py-2"
                   >
                     <input
                       className="checkbox accent-primary-cyan"
                       type="checkbox"
+                      id={`specialty-${specialty}`}
                       onChange={handleCheckboxChange}
                       checked={selectedSpecialties.includes(specialty)}
                       value={specialty}
+                      aria-label={`Filter by ${specialty}`}
                     />
-                    <label>{specialty}</label>
+                    <label htmlFor={`specialty-${specialty}`}>
+                      {specialty}
+                    </label>
                   </div>
                 ))}
             </div>
@@ -117,6 +137,8 @@ function DoctorFilter({
               <button
                 onClick={() => setShowMore((prev) => !prev)}
                 className="border px-5 py-1 bg-primary-cyan text-white rounded-md"
+                aria-expanded={showMore}
+                aria-controls="specialty-list"
               >
                 See {showMore ? "Less" : "More"}
               </button>
@@ -128,34 +150,47 @@ function DoctorFilter({
             className="bg-white w-full md:w-[70%] rounded-lg shadow-2xl px-5 py-10"
           >
             <h3 className="pb-5 text-2xl border-b border-primary-cyan flex gap-1 items-center">
-              <BriefcaseMedical className="text-primary-cyan" />
+              <BriefcaseMedical
+                className="text-primary-cyan"
+                aria-hidden="true"
+              />
               <span>Availability</span>
             </h3>
-            <div className="pt-5 grid grid-cols-1 md:grid-cols-2 w-full">
+            <div
+              className="pt-5 grid grid-cols-1 md:grid-cols-2 w-full"
+              role="group"
+              aria-label="Availability filters"
+            >
               <div className="border-b border-primary-gray py-2 flex gap-1">
                 <input
                   type="checkbox"
+                  id="avail-all"
                   checked={availFilter.length === 0}
                   onChange={() => setAvailFilter([])}
+                  aria-label="Select all dates"
                 />
-                <label>All</label>
+                <label htmlFor="avail-all">All</label>
               </div>
               {availableDates.length > 0 ? (
-                availableDates.slice(0, showMoreAvailNum).map((date) => (
-                  <div
-                    key={date}
-                    className="flex gap-1 border-b border-primary-gray py-2"
-                  >
-                    <input
-                      className="checkbox accent-primary-cyan"
-                      type="checkbox"
-                      onChange={handleAvailChange}
-                      checked={availFilter.includes(date)}
-                      value={date}
-                    />
-                    <label>{date}</label>
-                  </div>
-                ))
+                availableDates
+                  .slice(0, showMoreAvailNum)
+                  .map((date, i: number) => (
+                    <div
+                      key={date || i}
+                      className="flex gap-1 border-b border-primary-gray py-2"
+                    >
+                      <input
+                        className="checkbox accent-primary-cyan"
+                        type="checkbox"
+                        id={`avail-${date}`}
+                        onChange={handleAvailChange}
+                        checked={availFilter.includes(date)}
+                        value={date}
+                        aria-label={`Filter by date ${date}`}
+                      />
+                      <label htmlFor={`avail-${date}`}>{date}</label>
+                    </div>
+                  ))
               ) : (
                 <p>No available dates found.</p>
               )}
@@ -164,6 +199,8 @@ function DoctorFilter({
               <button
                 onClick={() => setAvailShowMore((prev) => !prev)}
                 className="border px-5 py-1 bg-primary-cyan text-white rounded-md"
+                aria-expanded={availShowMore}
+                aria-controls="availability-list"
               >
                 See {availShowMore ? "Less" : "More"}
               </button>
