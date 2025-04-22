@@ -1,5 +1,10 @@
 # 🩺 HealthCare App
 
+
+https://github.com/user-attachments/assets/50a0530a-d7e2-481a-b71b-6faf4beb7c01
+
+
+
 A modern web application for managing doctors, built using **React**, **TypeScript**, **Vite**, and **Tailwind CSS**. This project provides a sleek interface for browsing doctors, filtering by specialty or availability, and booking appointments — designed with user-friendliness and performance in mind.
 
 ---
