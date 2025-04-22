@@ -56,7 +56,7 @@ function Doctors() {
   });
 
   return (
-    <div>
+    <div role="main" aria-label="Doctors page">
       <DoctorFilter
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
@@ -74,14 +74,19 @@ function Doctors() {
           <button
             onClick={() => setFilterStatus(true)}
             className="flex gap-1 cursor-pointer bg-white items-center justify-center px-5 shadow-lg text-primary-cyan font-semibold"
+            aria-label="Open filter options"
           >
             <span>Filter</span>
-            <SlidersHorizontal width={iconWidth} />
+            <SlidersHorizontal width={iconWidth} aria-hidden="true" />
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full items-center justify-center">
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full items-center justify-center"
+        role="list"
+        aria-label="List of doctors"
+      >
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doctor: doctorTypes, i: number) => (
             <DoctorCard
@@ -94,7 +99,7 @@ function Doctors() {
             />
           ))
         ) : (
-          <p>No doctors match the selected filters.</p>
+          <p aria-live="polite">No doctors match the selected filters.</p>
         )}
       </div>
 
