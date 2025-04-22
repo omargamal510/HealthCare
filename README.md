@@ -3,11 +3,42 @@
 
 A React-based web application for browsing doctors, filtering by specialty and availability, booking appointments, and viewing scheduled appointments. Built with Vite, TypeScript, Tailwind CSS, and React Router, the app fetches doctor data from a public API and stores appointments in local storage.
 
-GitHub Repository
+GitHub Repository 
+[https://github.com/https://github.com/omargamal510/HealthCare](https://github.com/omargamal510/HealthCare)
 
-https://github.com/ogamal0111/clinic-reservation-app (Replace with your actual repository URL)
+# Setup Instructions
 
-Setup Instructions
+Steps
+
+* Clone the Repository
+
+git clone https://github.com/ogamal0111/clinic-reservation-app.git
+cd clinic-reservation-app
+
+
+
+Install Dependencies
+
+npm install
+
+
+
+``` Run the Development Server
+
+npm run dev
+
+Open http://localhost:5173 in your browser to view the app.
+
+
+
+Build for Production (optional)
+
+npm run build
+
+The production-ready files will be in the dist folder.
+
+How AI Tools Were Used
+
 
 Prerequisites
 
