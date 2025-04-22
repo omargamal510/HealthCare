@@ -67,7 +67,7 @@ function DoctorCard({ doctor, setDoctorBookingData }: DoctorCardProp) {
       role="region"
       aria-label={`Doctor profile for ${name}`}
     >
-      <div className="flex flex-col items-center text-center h-full gap-5">
+      <div className="flex flex-col w-full items-center text-center h-full gap-5">
         <img
           className="rounded-full w-20 border-primary-cyan border"
           src={image}

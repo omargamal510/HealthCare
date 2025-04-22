@@ -140,7 +140,7 @@ function DoctorBooking({ doctorBookingData }: DoctorBookingProps) {
             </ul>
 
             <p
-              className="flex border-t-1 border-primary-cyan pt-3 mt-3 w-full text-center items-center justify-center gap-2"
+              className="flex lg:flex-row flex-col border-t-1 border-primary-cyan pt-3 mt-3 w-full text-center items-center justify-center gap-1"
               aria-live="polite"
             >
               {choosenDate !== "" && choosenTime !== "" && (

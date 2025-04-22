@@ -22,9 +22,9 @@ function SingleAppointment() {
               className="rounded-lg bg-white shadow-2xl"
               role="listitem"
             >
-              <div className="flex bg-primary-cyan p-2 rounded-t-lg text-white font-bold justify-between">
-                <h2 className="text-2xl">{appointment.name}</h2>
-                <p className="text-lg">{appointment.specialty}</p>
+              <div className="flex bg-primary-cyan p-2 rounded-t-lg text-white font-bold justify-between items-center">
+                <h2 className="text-xl lg:text-2xl">{appointment.name}</h2>
+                <p className="text-sm lg:text-lg">{appointment.specialty}</p>
               </div>
               <div className="flex flex-col justify-around gap-2 p-2 text-lg font-semibold h-[120px]">
                 {isDeprecatedDate(appointment.date) && (
@@ -38,7 +38,7 @@ function SingleAppointment() {
                     </span>
                   </h3>
                 )}
-                <p className="flex gap-1 items-center">
+                <p className="flex gap-1 text-md lg:text-lg items-center">
                   <span>
                     <CalendarClock aria-hidden="true" />
                   </span>
@@ -46,7 +46,7 @@ function SingleAppointment() {
                   <Minus aria-hidden="true" />
                   <span>{appointment.time}</span>
                 </p>
-                <p className="flex gap-1 items-center">
+                <p className="flex gap-1 text-md lg:text-lg items-center">
                   <span>
                     <Map aria-hidden="true" />
                   </span>

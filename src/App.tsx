@@ -78,9 +78,11 @@ export default function App() {
                 <NavLink
                   to={e.href}
                   className={({ isActive }) =>
-                    isActive
-                      ? "bg-primary-cyan px-5 w-full block font-bold text-xl"
-                      : "text-black w-full px-5"
+                    `block w-full px-5 py-2 h-12 font-semibold ${
+                      isActive
+                        ? "bg-primary-cyan font-bold text-xl"
+                        : "text-black"
+                    }`
                   }
                   role="menuitem"
                 >

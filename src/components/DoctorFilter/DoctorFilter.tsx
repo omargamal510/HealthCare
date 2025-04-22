@@ -113,9 +113,9 @@ function DoctorFilter({
               </div>
               {allSelectionsSet
                 .slice(0, showMoreSpecialtyNum)
-                .map((specialty) => (
+                .map((specialty, index: number) => (
                   <div
-                    key={specialty}
+                    key={specialty || index}
                     className="flex gap-1 border-b border-primary-gray py-2"
                   >
                     <input
@@ -172,23 +172,25 @@ function DoctorFilter({
                 <label htmlFor="avail-all">All</label>
               </div>
               {availableDates.length > 0 ? (
-                availableDates.slice(0, showMoreAvailNum).map((date) => (
-                  <div
-                    key={date}
-                    className="flex gap-1 border-b border-primary-gray py-2"
-                  >
-                    <input
-                      className="checkbox accent-primary-cyan"
-                      type="checkbox"
-                      id={`avail-${date}`}
-                      onChange={handleAvailChange}
-                      checked={availFilter.includes(date)}
-                      value={date}
-                      aria-label={`Filter by date ${date}`}
-                    />
-                    <label htmlFor={`avail-${date}`}>{date}</label>
-                  </div>
-                ))
+                availableDates
+                  .slice(0, showMoreAvailNum)
+                  .map((date, i: number) => (
+                    <div
+                      key={date || i}
+                      className="flex gap-1 border-b border-primary-gray py-2"
+                    >
+                      <input
+                        className="checkbox accent-primary-cyan"
+                        type="checkbox"
+                        id={`avail-${date}`}
+                        onChange={handleAvailChange}
+                        checked={availFilter.includes(date)}
+                        value={date}
+                        aria-label={`Filter by date ${date}`}
+                      />
+                      <label htmlFor={`avail-${date}`}>{date}</label>
+                    </div>
+                  ))
               ) : (
                 <p>No available dates found.</p>
               )}
