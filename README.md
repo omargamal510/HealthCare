@@ -32,25 +32,36 @@ A modern web application for managing doctors, built using **React**, **TypeScri
 
 ---
 
-
 ## ⚙️ Getting Started
 
-### 1. Clone the repository
+###  Clone the repository, install dependencies, and start the dev server:
 
+#### First of all make sure you have installed node js 
 ```bash
-git clone https://github.com/your-username/healthcare-app.git
+node -v
+```
+1 - Clone Repository
+```bash
+git clone https://github.com/omargamal510
+
+https://github.com/user-attachments/assets/d82b8133-a5b6-4dc9-862f-f430b3ceb21e
+
+
+
+https://github.com/user-attachments/assets/5012493e-92b0-4324-8b87-1aabc2d4688f
+
+/healthcare-app.git\
+```
+2 - Go to the repo directory
+```bash
 cd healthcare-app
-2. Install dependencies
-bash
-Copy
-Edit
+```
+3- Instal dependecies
+```bash
 npm install
-3. Start development server
-bash
-Copy
-Edit
+```
+4- Start development server
+```bash
 npm run dev
-App will be running on http://localhost:5173
-
-
-
+```
+🔥 It should open now on localhost://5173
