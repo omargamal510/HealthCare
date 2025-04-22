@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import DoctorCard from "../components/DoctorCard/DoctorCard.tsx";
 import { doctorTypes } from "../types/doctors-types.ts";
 import { SlidersHorizontal } from "lucide-react";
@@ -28,32 +28,33 @@ function Doctors() {
       } catch (error) {
         console.error("Error fetching doctors:", error);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
+        setLoading(false);
       }
     };
 
     fetchDoctors();
   }, []);
 
+  const allSelectionsSet = useMemo(() => {
+    const allSelections = doctors.map((e) => e.specialty);
+    return Array.from(new Set(allSelections));
+  }, [doctors]);
+
+  const filteredDoctors = useMemo(() => {
+    return doctors.filter((doctor) => {
+      const matchesSpecialty =
+        selectedSpecialties.length === 0 ||
+        selectedSpecialties.includes(doctor.specialty);
+
+      const matchesAvailability =
+        availFilter.length === 0 ||
+        doctor.availableSlots.some((slot) => availFilter.includes(slot.date));
+
+      return matchesSpecialty && matchesAvailability;
+    });
+  }, [doctors, selectedSpecialties, availFilter]);
+
   if (loading) return <Loading />;
-
-  const allSelections: string[] = doctors.map((e) => e.specialty);
-  const allSelectionsSet: string[] = Array.from(new Set(allSelections));
-
-  // Filter doctors based on specialty and availability (dates)
-  const filteredDoctors: doctorTypes[] = doctors.filter((doctor) => {
-    const matchesSpecialty =
-      selectedSpecialties.length === 0 ||
-      selectedSpecialties.includes(doctor.specialty);
-
-    const matchesAvailability =
-      availFilter.length === 0 ||
-      doctor.availableSlots.some((slot) => availFilter.includes(slot.date));
-
-    return matchesSpecialty && matchesAvailability;
-  });
 
   return (
     <div role="main" aria-label="Doctors page">

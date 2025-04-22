@@ -27,7 +27,7 @@ function Home() {
         </Link>
       </div>
       <div className="">
-        <img src="/doctor.png" alt="doctor" className="w-[400px]" />
+        <img src="/doctor.png" alt="doctor" width={400} height={400} />
       </div>
     </div>
   );
